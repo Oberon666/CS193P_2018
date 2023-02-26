@@ -11,7 +11,7 @@ import UIKit
 final class ConcentrationViewController: UIViewController {
 
     private var collectionView: UICollectionView
-    private var cardData: [CardDataModel]
+    private var game: GameLogic
 
     // init
 
@@ -20,20 +20,7 @@ final class ConcentrationViewController: UIViewController {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: viewLayout)
         collectionView.register(CardCell.self, forCellWithReuseIdentifier: CardCell.identifier)
 
-        cardData = [
-            CardDataModel("😀"),
-            CardDataModel("😀"),
-            CardDataModel("😎"),
-            CardDataModel("😎"),
-            CardDataModel("🤓"),
-            CardDataModel("🤓"),
-            CardDataModel("😠"),
-            CardDataModel("😠"),
-            CardDataModel("😤"),
-            CardDataModel("😤"),
-            CardDataModel("😭"),
-            CardDataModel("😭"),
-        ]
+        game = GameLogic(theme: .fases, unicCardCount: 6)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -64,7 +51,7 @@ final class ConcentrationViewController: UIViewController {
 extension ConcentrationViewController {
 
     private func setupUI() {
-        //collectionView.backgroundColor = .green
+        collectionView.backgroundColor = .clear
 
         view.backgroundColor = .white
         title = "Concentration game"
@@ -73,7 +60,7 @@ extension ConcentrationViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16.0),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16.0),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -116.0),
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16.0),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16.0)
         ])
@@ -86,12 +73,12 @@ extension ConcentrationViewController {
 extension ConcentrationViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cardData.count
+        return game.cardData.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardCell.identifier, for: indexPath) as! CardCell
-        cell.data = cardData[indexPath.row]
+        cell.data = game.cardData[indexPath.row]
         return cell
     }
 

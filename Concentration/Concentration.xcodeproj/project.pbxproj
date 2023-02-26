@@ -14,6 +14,7 @@
 		9277464529AA883B000C1147 /* CardDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9277464429AA883B000C1147 /* CardDataModel.swift */; };
 		9277464729AA8BB4000C1147 /* ConcentrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9277464629AA8BB4000C1147 /* ConcentrationViewController.swift */; };
 		927A45BD29AB3C45002D013C /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927A45BB29AB3C45002D013C /* CardCell.swift */; };
+		927A45C029AB531F002D013C /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927A45BF29AB531F002D013C /* GameLogic.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		9277464429AA883B000C1147 /* CardDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDataModel.swift; sourceTree = "<group>"; };
 		9277464629AA8BB4000C1147 /* ConcentrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcentrationViewController.swift; sourceTree = "<group>"; };
 		927A45BB29AB3C45002D013C /* CardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
+		927A45BF29AB531F002D013C /* GameLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,9 +62,8 @@
 			children = (
 				927A45BA29AB3C1B002D013C /* Card */,
 				9277464629AA8BB4000C1147 /* ConcentrationViewController.swift */,
+				927A45BF29AB531F002D013C /* GameLogic.swift */,
 				9277464229AA860F000C1147 /* Support files */,
-				9277462E29AA85CE000C1147 /* AppDelegate.swift */,
-				9277463029AA85CE000C1147 /* SceneDelegate.swift */,
 			);
 			path = Concentration;
 			sourceTree = "<group>";
@@ -70,6 +71,8 @@
 		9277464229AA860F000C1147 /* Support files */ = {
 			isa = PBXGroup;
 			children = (
+				9277462E29AA85CE000C1147 /* AppDelegate.swift */,
+				9277463029AA85CE000C1147 /* SceneDelegate.swift */,
 				9277463729AA85CF000C1147 /* Assets.xcassets */,
 				9277463929AA85CF000C1147 /* LaunchScreen.storyboard */,
 				9277463C29AA85CF000C1147 /* Info.plist */,
@@ -156,6 +159,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				927A45C029AB531F002D013C /* GameLogic.swift in Sources */,
 				927A45BD29AB3C45002D013C /* CardCell.swift in Sources */,
 				9277462F29AA85CE000C1147 /* AppDelegate.swift in Sources */,
 				9277463129AA85CE000C1147 /* SceneDelegate.swift in Sources */,
