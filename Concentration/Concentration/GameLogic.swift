@@ -9,6 +9,7 @@ import Foundation
 
 final class GameLogic {
 
+    // theme
     enum Theme {
         case sport
         case animal
@@ -28,8 +29,14 @@ final class GameLogic {
 
     private let currentTheme: Theme
 
+    // other
+
+    var tapAction: ((CardCell) -> Void)?
+
     private(set) var cardData: [CardDataModel]
     private(set) var flipCount = 0
+
+    private var faseUpCard: CardCell?
 
     // init
 
@@ -37,11 +44,29 @@ final class GameLogic {
         cardData = []
         currentTheme = theme
         fillCardData(unicCardCount: unicCardCount)
+
+        tapAction = { [weak self] cell in
+            guard let self else { return }
+            self.flipCount += 1
+
+            if let faseUpCard = self.faseUpCard { // одна карта уже открыта
+                if cell == faseUpCard { // тап на открытую карту
+                    return
+                }
+
+                self.faseUpCard = nil
+                self.turnCard(cell)
+                self.checkOpenCards(first: faseUpCard, two: cell)
+            } else {
+                self.faseUpCard = cell
+                self.turnCard(cell)
+            }
+        }
     }
 
 }
 
-// MARK: -
+// MARK: - private
 
 extension GameLogic {
 
@@ -61,9 +86,34 @@ extension GameLogic {
         cardData.shuffle()
     }
 
-    func onCardTap() {
-        print(">>> onCardTap")
-        flipCount += 1
+    private func checkOpenCards(first: CardCell, two: CardCell) {
+        if first.data.value == two.data.value {
+            setMachedCard(first)
+            setMachedCard(two)
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+                self?.turnCard(first)
+                self?.turnCard(two)
+            }
+        }
     }
+
+    private func turnCard(_ card:CardCell) {
+        card.data.isFaseUp = !card.data.isFaseUp
+        card.updateUI()
+    }
+
+    private func setMachedCard(_ card:CardCell) {
+        card.data.isMatched = true
+        card.updateUI()
+    }
+
+}
+
+// MARK: - puvlic
+
+extension GameLogic {
+
+    //
 
 }

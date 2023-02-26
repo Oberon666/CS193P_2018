@@ -13,9 +13,12 @@ final class CardCell: UICollectionViewCell {
 
     static let identifier = "CardCell"
 
-    var data: CardDataModel? {
+    var data: CardDataModel! {
         didSet { updateUI() }
     }
+
+
+    var tapAction: ((CardCell) -> Void)?
 
     private var backImage: UIImageView
     private var value: UILabel
@@ -37,6 +40,27 @@ final class CardCell: UICollectionViewCell {
 
 }
 
+// MARK: - public
+
+extension CardCell {
+
+    func updateUI() {
+        guard let data else { return }
+        value.text = data.value
+        self.isHidden = data.isMatched
+
+        backImage.isHidden = data.isFaseUp
+        value.isHidden = !data.isFaseUp
+    }
+
+    func turnCard() {
+        guard var data else { return }
+        data.isFaseUp = !data.isFaseUp
+        updateUI()
+    }
+
+}
+
 // MARK: - private
 
 extension CardCell {
@@ -48,7 +72,6 @@ extension CardCell {
         contentView.layer.cornerRadius = 10
         contentView.layer.borderWidth = 0.5
         contentView.layer.borderColor = UIColor.black.cgColor
-        //contentView.backgroundColor = .blue
 
         contentView.addSubview(backImage)
         backImage.translatesAutoresizingMaskIntoConstraints = false
@@ -75,14 +98,9 @@ extension CardCell {
         updateUI()
     }
 
-    private func updateUI() {
-        value.text = data?.value
-    }
-
     @objc
     private func onTapAction() {
-        backImage.isHidden = value.isHidden
-        value.isHidden = !value.isHidden
+        tapAction?(self)
     }
 
 }

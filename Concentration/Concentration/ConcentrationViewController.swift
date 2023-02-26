@@ -79,6 +79,7 @@ extension ConcentrationViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardCell.identifier, for: indexPath) as! CardCell
         cell.data = game.cardData[indexPath.row]
+        cell.tapAction = game.tapAction
         return cell
     }
 
