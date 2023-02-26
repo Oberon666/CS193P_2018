@@ -10,8 +10,9 @@ import UIKit
 
 final class ConcentrationViewController: UIViewController {
 
-    private var collectionView: UICollectionView
-    private var game: GameLogic
+    private let collectionView: UICollectionView
+    private let label: UILabel
+    private let game: GameLogic
 
     // init
 
@@ -20,7 +21,10 @@ final class ConcentrationViewController: UIViewController {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: viewLayout)
         collectionView.register(CardCell.self, forCellWithReuseIdentifier: CardCell.identifier)
 
-        game = GameLogic(theme: .fases, unicCardCount: 6)
+        label = UILabel()
+        label.textAlignment = .center
+
+        game = GameLogic(theme: .animal, unicCardCount: 6)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -40,14 +44,9 @@ final class ConcentrationViewController: UIViewController {
         setupUI()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
 }
 
 // MARK: - private
-
 extension ConcentrationViewController {
 
     private func setupUI() {
@@ -58,18 +57,29 @@ extension ConcentrationViewController {
 
         view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+
+        game.updateUI = { [weak self] in
+            guard let self else { return }
+            self.label.text = "count: \(self.game.flipCount)"
+        }
+        label.text = "count: \(game.flipCount)"
+        view.addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16.0),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -116.0),
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16.0),
-            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16.0)
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16.0),
+            label.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 16.0),
+            label.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16.0),
+            label.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16.0),
+            label.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16.0)
         ])
     }
 
 }
 
 // MARK: - UICollectionViewDataSource
-
 extension ConcentrationViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -86,17 +96,15 @@ extension ConcentrationViewController: UICollectionViewDataSource {
 }
 
 // MARK: - UICollectionViewDelegate
-
 extension ConcentrationViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 100, height: 100)
+        return CGSize(width: 90, height: 90)
     }
 
 }
 
 // MARK: - UICollectionViewDelegate
-
 extension ConcentrationViewController: UICollectionViewDelegate {
 
     // TODO:

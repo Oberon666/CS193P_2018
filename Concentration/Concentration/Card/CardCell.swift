@@ -17,7 +17,6 @@ final class CardCell: UICollectionViewCell {
         didSet { updateUI() }
     }
 
-
     var tapAction: ((CardCell) -> Void)?
 
     private var backImage: UIImageView
@@ -45,7 +44,7 @@ final class CardCell: UICollectionViewCell {
 extension CardCell {
 
     func updateUI() {
-        guard let data else { return }
+        guard data != nil else { return }
         value.text = data.value
         self.isHidden = data.isMatched
 
@@ -54,15 +53,20 @@ extension CardCell {
     }
 
     func turnCard() {
-        guard var data else { return }
+        guard data != nil else { return }
         data.isFaseUp = !data.isFaseUp
+        updateUI()
+    }
+
+    func setMached() {
+        guard data != nil else { return }
+        data.isMatched = true
         updateUI()
     }
 
 }
 
 // MARK: - private
-
 extension CardCell {
 
     private func setupUI() {

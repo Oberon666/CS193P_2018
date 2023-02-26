@@ -29,9 +29,10 @@ final class GameLogic {
 
     private let currentTheme: Theme
 
-    // other
+    // properties
 
     var tapAction: ((CardCell) -> Void)?
+    var updateUI: (() -> Void)?
 
     private(set) var cardData: [CardDataModel]
     private(set) var flipCount = 0
@@ -46,32 +47,29 @@ final class GameLogic {
         fillCardData(unicCardCount: unicCardCount)
 
         tapAction = { [weak self] cell in
-            guard let self else { return }
+            guard let self, !cell.data.isFaseUp else { return }
+
             self.flipCount += 1
 
-            if let faseUpCard = self.faseUpCard { // одна карта уже открыта
-                if cell == faseUpCard { // тап на открытую карту
-                    return
-                }
-
-                self.faseUpCard = nil
-                self.turnCard(cell)
+            if let faseUpCard = self.faseUpCard {
+                cell.turnCard()
                 self.checkOpenCards(first: faseUpCard, two: cell)
+                self.faseUpCard = nil
             } else {
                 self.faseUpCard = cell
-                self.turnCard(cell)
+                cell.turnCard()
             }
+            self.updateUI?()
         }
     }
 
 }
 
 // MARK: - private
-
 extension GameLogic {
 
     private func fillCardData(unicCardCount: Int) {
-        guard currentTheme.data.count >= unicCardCount*2 else {
+        guard currentTheme.data.count >= unicCardCount else {
             assertionFailure()
             return
         }
@@ -88,32 +86,14 @@ extension GameLogic {
 
     private func checkOpenCards(first: CardCell, two: CardCell) {
         if first.data.value == two.data.value {
-            setMachedCard(first)
-            setMachedCard(two)
+            first.setMached()
+            two.setMached()
         } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-                self?.turnCard(first)
-                self?.turnCard(two)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                first.turnCard()
+                two.turnCard()
             }
         }
     }
-
-    private func turnCard(_ card:CardCell) {
-        card.data.isFaseUp = !card.data.isFaseUp
-        card.updateUI()
-    }
-
-    private func setMachedCard(_ card:CardCell) {
-        card.data.isMatched = true
-        card.updateUI()
-    }
-
-}
-
-// MARK: - puvlic
-
-extension GameLogic {
-
-    //
 
 }
