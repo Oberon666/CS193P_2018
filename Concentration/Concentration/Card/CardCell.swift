@@ -43,15 +43,6 @@ final class CardCell: UICollectionViewCell {
 
 extension CardCell {
 
-    func updateUI() {
-        guard data != nil else { return }
-        value.text = data.value
-        self.isHidden = data.isMatched
-
-        backImage.isHidden = data.isFaseUp
-        value.isHidden = !data.isFaseUp
-    }
-
     func turnCard() {
         guard data != nil else { return }
         data.isFaseUp = !data.isFaseUp
@@ -98,8 +89,15 @@ extension CardCell {
             value.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8.0)
         ])
         value.isHidden = true
+    }
 
-        updateUI()
+    private func updateUI() {
+        guard data != nil else { return }
+        value.text = data.value
+        self.isHidden = data.isMatched
+
+        backImage.isHidden = data.isFaseUp
+        value.isHidden = !data.isFaseUp
     }
 
     @objc
