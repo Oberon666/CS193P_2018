@@ -45,7 +45,11 @@ extension CardCell {
 
     func turnCard() {
         guard data != nil else { return }
-        data.isFaseUp = !data.isFaseUp
+        UIView.transition(with: self,
+                          duration: 0.5,
+                          options: [.transitionFlipFromLeft],
+                          animations: { self.data.isFaseUp = !self.data.isFaseUp },
+                          completion: nil)
         updateUI()
     }
 

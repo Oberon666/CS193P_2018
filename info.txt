@@ -1,0 +1,19 @@
+
+Animation
+frame\center
+bounds(transient size? dies not conflict with animation center)
+transform(translation, rotation)
+alpha(opacity)
+backround
+
+
+UIView.animate - не дает возможности прервать анимацию или выполнить ее часть.
+ 
+UIViewPropertyAnimator
+
+UIView.transition
+
+
+Dynamic anumation 
+Create a UIDynamicAnimator
+Create and add UIDynamicBehavior
